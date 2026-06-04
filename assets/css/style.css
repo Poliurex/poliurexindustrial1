@@ -2,7 +2,7 @@
 :root{
   --navy:#1A3263;--navy-d:#14284D;--navy-l:#243D72;--navy-m:#1F3868;
   --steel:#547792;--amber:#FAB95B;--amber-b:#FFC97A;
-  --amber-dim:rgba(250,185,91,.12);--amber-brd:rgba(250,185,91,.28);
+  --amber-dim:rgba(250,185,91,.15);--amber-brd:rgba(250,185,91,.28);
   --cream:#E8E2DB;--cream-d:rgba(232,226,219,.72);--cream-dim:rgba(232,226,219,.42);
   --f-h:'Outfit',sans-serif;--f-b:'Figtree',sans-serif;
   --t-xs:clamp(.65rem,.4vw + .55rem,.75rem);
@@ -45,7 +45,7 @@ body:has(a:hover) .cursor-follower,body:has(button:hover) .cursor-follower{width
 .eyebrow__dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--amber);animation:pulse 2.2s ease-in-out infinite;flex-shrink:0}
 .section-light .eyebrow{color:var(--steel)}
 .section-light .eyebrow__dot{background:var(--steel);animation:pulse 2.2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.6)}}.hero .eyebrow{text-shadow:0 1px 6px rgba(0,0,0,.8)}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.6)}} .eyebrow__dot{will-change:transform,opacity}.hero .eyebrow{text-shadow:0 1px 6px rgba(0,0,0,.8)}
 @keyframes fadeInUp{from{opacity:0;transform:translateX(-50%) translateY(12px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 
 /* BUTTONS */
@@ -313,7 +313,7 @@ tbody tr.highlight td:first-child{color:var(--navy);font-weight:700;font-family:
 
 /* ── FORM SECTION ── */
 .form-section{position:relative;padding-block:clamp(4rem,7vw,7rem);background:var(--navy-m);overflow:hidden}
-.form-section__glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:90vw;height:70vw;max-width:900px;background:radial-gradient(ellipse,rgba(250,185,91,.07) 0%,rgba(84,119,146,.04) 40%,transparent 70%);animation:glowBreathe 5s ease-in-out infinite;pointer-events:none;z-index:0}
+.form-section__glow{will-change:transform,opacity;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:90vw;height:70vw;max-width:900px;background:radial-gradient(ellipse,rgba(250,185,91,.07) 0%,rgba(84,119,146,.04) 40%,transparent 70%);animation:glowBreathe 5s ease-in-out infinite;pointer-events:none;z-index:0}
 @keyframes glowBreathe{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.7}50%{transform:translate(-50%,-50%) scale(1.25);opacity:1}}
 .form-section__rings{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
 .form-section__rings::before,.form-section__rings::after{content:'';position:absolute;border-radius:50%;border:1px solid rgba(250,185,91,.07)}
@@ -332,12 +332,12 @@ tbody tr.highlight td:first-child{color:var(--navy);font-weight:700;font-family:
 .form-mini-stat__label{font-size:var(--t-xs);color:var(--cream-dim);text-transform:uppercase;letter-spacing:.08em;margin-top:.25rem}
 /* Animated gradient border on form card */
 .form-card--anim{position:relative}
-.form-card--anim::before{content:'';position:absolute;inset:-2px;border-radius:calc(var(--r-xl) + 2px);background:linear-gradient(90deg,var(--amber) 0%,var(--steel) 25%,var(--amber) 50%,var(--navy-l) 75%,var(--amber) 100%);background-size:400% 100%;animation:borderFlow 4s linear infinite;z-index:-1}
-@keyframes borderFlow{0%{background-position:0% 0%}100%{background-position:400% 0%}}
+.form-card--anim::before{content:'';position:absolute;inset:-2px;border-radius:calc(var(--r-xl) + 2px);background:conic-gradient(from 0deg,var(--amber),var(--steel),var(--amber),var(--navy),var(--amber));animation:borderRotate 5s linear infinite;z-index:-1;will-change:transform}
+@keyframes borderRotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 /* Submit button shimmer */
 .btn--submit{position:relative;overflow:hidden}
-.btn--submit::before{content:'';position:absolute;top:0;left:-150%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:shimmer 3s ease-in-out infinite;animation-delay:1.5s;z-index:10;pointer-events:none}
-@keyframes shimmer{0%{left:-150%}60%,100%{left:200%}}
+.btn--submit::before{content:'';position:absolute;top:0;left:0;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:shimmer 3s ease-in-out infinite;animation-delay:1.5s;z-index:10;pointer-events:none;will-change:transform}
+@keyframes shimmer{0%{transform:translateX(-250%)}60%,100%{transform:translateX(400%)}}60%,100%{left:200%}}
 @media(max-width:900px){.form-section__inner{grid-template-columns:1fr}}
 @media(max-width:600px){.form-mini-stats{gap:1.5rem}}
 
@@ -369,3 +369,14 @@ details.faq__item[open] summary::after{transform:rotate(180deg)}
 details.faq__item summary:hover{color:var(--steel)}
 .faq__answer{padding:0 1.5rem 1.5rem;font-size:var(--t-sm);color:rgba(26,50,99,.75);line-height:1.85;border-top:1px solid rgba(26,50,99,.08);margin-top:0;padding-top:1rem}
 .faq__answer strong{color:var(--navy)}
+
+.section-dark,.section-light,.pain,.sistema,.gallery,.clients,.materials,.comparison,.process,.testimonials,.faq,.form-section{contain:layout style}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.pain,.sistema,.benefits,.applications,.gallery,.videos,.clients,.materials,.comparison,.process,.testimonials,.faq,.cta-section{content-visibility:auto;contain-intrinsic-size:0 500px}

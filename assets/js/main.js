@@ -78,3 +78,20 @@ var ss=document.createElement('style');
 ss.textContent='@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}';
 document.head.appendChild(ss);
 })();
+;(function(){
+  var lazyVideos = document.querySelectorAll('video[preload="none"]');
+  if(!lazyVideos.length || !('IntersectionObserver' in window)) return;
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var v = e.target;
+        v.querySelectorAll('source').forEach(function(s){
+          if(s.dataset.src){ s.src = s.dataset.src; }
+        });
+        v.load();
+        obs.unobserve(v);
+      }
+    });
+  },{rootMargin:'200px'});
+  lazyVideos.forEach(function(v){ obs.observe(v); });
+})();
